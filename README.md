@@ -21,11 +21,12 @@ WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있
 
 ## 🧩 아키텍처 개요
 
-* **HTTP API**
-* **WebSocket**
-* **In-Memory 상태 관리**
+* HTTP API → 문서 생성 / 조회 / 저장 (DB 영속화)
+* WebSocket → 실시간 텍스트 동기화 (브로드캐스트)
+* In-Memory 상태 관리 → 현재 편집 중인 문서 상태 유지
 
-👉 [설계 포인트로 이동](#design-point)
+👉 하단 설계 포인트 참고
+
 ---
 
 ## 📂 프로젝트 구조
@@ -136,8 +137,6 @@ PUT /api/documents/{id}
 ```
 
 ---
-
-<a id="design-point"></a>
 
 ## 💡 설계 포인트
 
