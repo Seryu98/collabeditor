@@ -25,7 +25,7 @@ WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있
 * **WebSocket**
 * **In-Memory 상태 관리**
 
-👉 [설계 포인트](#설계-포인트)
+👉 [설계 포인트로 이동](#design-point)
 ---
 
 ## 📂 프로젝트 구조
@@ -137,7 +137,9 @@ PUT /api/documents/{id}
 
 ---
 
-## 설계 포인트
+<a id="design-point"></a>
+
+## 💡 설계 포인트
 
 * 실시간 협업을 위해 WebSocket 기반 구조 선택
 * 서버 상태 관리를 위해 In-Memory Map 사용
