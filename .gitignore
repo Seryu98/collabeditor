@@ -1,16 +1,17 @@
-# Compiled class file
+# =========================
+# Java / Spring Boot
+# =========================
 *.class
-
-# Log file
 *.log
 
-# BlueJ files
-*.ctxt
+# Gradle
+.gradle/
+build/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Maven (혹시 쓸 경우 대비)
+target/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -19,6 +20,35 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# =========================
+# IDE
+# =========================
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# =========================
+# OS
+# =========================
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# =========================
+# 기타
+# =========================
 hs_err_pid*
 replay_pid*
