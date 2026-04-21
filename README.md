@@ -10,7 +10,7 @@ WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있
 
 ## 🛠 기술 스택
 
-* Java
+* Java 21
 * Spring Boot
 * Spring WebSocket (STOMP)
 * JPA (Hibernate)
