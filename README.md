@@ -37,22 +37,22 @@ WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있
 
 ```plaintext
 com.example.collabeditor
-├─ CollabeditorApplication.java // Spring Boot 실행 진입점
-├─ common                 // 프로젝트 전반에서 공통으로 사용하는 기능
-│  ├─ config              // WebSocket, Jackson 설정 클래스
-│  ├─ exception           // 전역 예외 처리 (GlobalExceptionHandler)
-│  └─ dto                 // 공통 응답 구조 (API Response 등)
-├─ document               // 문서의 생성, 조회, 수정, 저장을 담당하는 핵심 도메인
-│  ├─ controller          // HTTP API (문서 생성 / 조회 / 저장 요청 처리)
-│  ├─ service             // 문서 비즈니스 로직 (조회, 저장, 검증)
-│  ├─ repository          // MySQL과 연동된 JPA 데이터 접근 계층
-│  ├─ entity              // Document 테이블 매핑 객체
-│  └─ dto                 // 요청/응답 데이터 구조 정의
-└─ collaboration          // WebSocket 기반 실시간 문서 편집 처리
-   ├─ controller          // WebSocket 메시지 수신 처리
-   ├─ service             // 편집 데이터 처리 및 브로드캐스트 로직
-   ├─ session             // 문서별 현재 편집 상태 (In-Memory Map 관리)
-   └─ dto                 // WebSocket 메시지 구조 정의
+├─ CollabeditorApplication.java  // Spring Boot 실행 진입점
+├─ common                        // 프로젝트 전반에서 공통으로 사용하는 기능
+│  ├─ config                     // WebSocket, Jackson 설정 클래스
+│  ├─ exception                  // 전역 예외 처리 (GlobalExceptionHandler)
+│  └─ dto                        // 공통 응답 구조 (API Response 등)
+├─ document                      // 문서의 생성, 조회, 수정, 저장을 담당하는 핵심 도메인
+│  ├─ controller                 // HTTP API (문서 생성 / 조회 / 저장 요청 처리)
+│  ├─ service                    // 문서 비즈니스 로직 (조회, 저장, 검증)
+│  ├─ repository                 // MySQL과 연동된 JPA 데이터 접근 계층
+│  ├─ entity                     // Document 테이블 매핑 객체
+│  └─ dto                        // 요청/응답 데이터 구조 정의
+└─ collaboration                 // WebSocket 기반 실시간 문서 편집 처리
+   ├─ controller                 // WebSocket 메시지 수신 처리
+   ├─ service                    // 편집 데이터 처리 및 브로드캐스트 로직
+   ├─ session                    // 문서별 현재 편집 상태 (In-Memory Map 관리)
+   └─ dto                        // WebSocket 메시지 구조 정의
 ```
 
 ---
