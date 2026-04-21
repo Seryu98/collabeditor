@@ -1,12 +1,11 @@
 
-# 📄 Document Entity 설계 설명
+# 📄 Document 도메인 설계 설명
 
 ## 📌 개요
-Document 엔티티는 실시간 협업 텍스트 에디터에서  
-"문서의 상태를 저장하는 핵심 도메인 객체"입니다.
+Document 도메인은 실시간 협업 텍스트 에디터에서 문서의 생성/조회/저장을 담당합니다.
 
-단순한 DB 테이블 매핑이 아니라  
-문서의 생성, 수정, 상태 변경까지 포함하는 도메인 모델입니다.
+구성은 `Entity + Repository + Service + Controller + DTO`로 분리했고,  
+현재 목표는 "단일 서버 기준 최소 동작 가능한 CRUD 흐름"입니다.
 
 ---
 
@@ -87,11 +86,13 @@ updateTitle()
 ### 입력 검증
 - title: 공백 제외 1자 이상, 최대 100자
 - content: `null` 금지, 빈 문자열 허용 여부는 서비스 정책으로 관리
+- 현재 기준으로 `null` 제약은 요청 DTO(`DocumentSaveRequest`) 검증 레벨에서 적용한다.
 
 ### 예외 처리
-- 존재하지 않는 문서 조회/저장 요청 시 `404 Not Found`
+- 존재하지 않는 문서 조회/저장 요청 시 `404 Not Found`를 반환하는 정책을 사용한다.
 - 검증 실패 시 `400 Bad Request`
 - 예외 응답은 공통 포맷(`ApiResponse`)으로 반환
+- 위 404 매핑 및 공통 응답 포맷은 `GlobalExceptionHandler`/`ApiResponse` 구현 단계에서 반영 예정이다.
 
 ---
 
@@ -100,6 +101,27 @@ updateTitle()
 - `DocumentService`는 문서 생성/조회/저장의 비즈니스 흐름을 담당한다.
 - `DocumentRepository`는 DB 접근만 담당한다.
 - 타임스탬프 관리 로직은 엔티티 라이프사이클에 위임한다.
+- 문서 조회는 내부 메서드 `findDocumentOrThrow()`로 공통화한다.
+
+---
+
+## 📌 현재 구현 상태 (MVP)
+
+### Service
+- `createDocument(request)` : title로 문서를 생성하고 content는 빈 문자열로 초기화
+- `getDocument(documentId)` : ID로 문서 단건 조회
+- `saveDocument(documentId, request)` : content 갱신
+
+### Controller (REST API)
+- `POST /api/documents` : 문서 생성
+- `GET /api/documents/{id}` : 문서 조회
+- `PUT /api/documents/{id}` : 문서 저장
+- 요청 DTO는 `@Valid`로 검증한다.
+
+### DTO
+- `DocumentCreateRequest` : `title` (`@NotBlank`, `@Size(max=100)`)
+- `DocumentSaveRequest` : `content` (`@NotNull`)
+- `DocumentResponse` : 엔티티를 API 응답 형태로 변환 (`from(Document)`)
 
 ---
 
@@ -123,3 +145,4 @@ updateTitle()
 
 - 2026-04-21: 초안 작성 (엔티티 필드, 시간 자동 처리, 캡슐화 정책)
 - 2026-04-21: 시간 처리 설명을 DB 레벨 -> JPA 라이프사이클 기준으로 정정
+- 2026-04-21: DocumentService/DocumentController/DTO 기준으로 문서를 도메인 설계 문서 형태로 확장
