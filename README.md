@@ -2,11 +2,9 @@
 
 ## 📌 프로젝트 소개
 
-WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있는
-실시간 협업 텍스트 에디터 백엔드 프로젝트입니다.
+WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있는 실시간 협업 텍스트 에디터 백엔드 프로젝트입니다.
 
-HTTP API와 WebSocket을 분리하여
-문서의 영속성과 실시간 동기화를 동시에 처리하도록 설계했습니다.
+이 프로젝트는 단순 CRUD API가 아닌, **실시간 협업 환경 구현**을 목표로 설계되었습니다.
 
 ---
 
@@ -60,13 +58,13 @@ com.example.collabeditor
 
 ## 📌 주요 기능
 
-### 1. 문서 관리 (HTTP)
+### 🗂 문서 관리 (HTTP)
 
 * 문서 생성
 * 문서 조회
 * 문서 저장
 
-### 2. 실시간 협업 (WebSocket)
+### 🔄 실시간 협업 (WebSocket)
 
 * 여러 사용자 동시 접속
 * 텍스트 변경사항 실시간 반영
@@ -76,38 +74,38 @@ com.example.collabeditor
 
 ## 🔄 동작 흐름
 
-### 📍 문서 생성 / 조회 / 저장
+### 📍 HTTP 흐름 (문서 관리)
 
-1. 클라이언트 → HTTP 요청
+1. 클라이언트 요청
 2. Controller → Service → Repository
-3. MySQL에 저장 또는 조회
+3. MySQL 저장 및 조회
 
 ---
 
-### 📍 실시간 편집
+### 📍 WebSocket 흐름 (실시간 편집)
 
-1. 클라이언트가 `/topic/docs/{id}` 구독
-2. 편집 내용 `/app/docs/{id}/edit` 전송
+1. 클라이언트 `/topic/docs/{id}` 구독
+2. `/app/docs/{id}/edit` 메시지 전송
 3. 서버에서 메모리 상태 갱신
-4. 동일 문서 구독자에게 브로드캐스트
+4. 모든 구독자에게 브로드캐스트
 
 ---
 
 ## 📡 API 명세
 
-### ✔ 문서 생성
+### 문서 생성
 
 ```
 POST /api/documents
 ```
 
-### ✔ 문서 조회
+### 문서 조회
 
 ```
 GET /api/documents/{id}
 ```
 
-### ✔ 문서 저장
+### 문서 저장
 
 ```
 PUT /api/documents/{id}
@@ -134,11 +132,13 @@ PUT /api/documents/{id}
 * Controller / Service / Repository 계층 분리
 * HTTP와 WebSocket 역할 분리
 * Redis 없이 메모리 기반으로 단순화
-* 전체 텍스트 동기화 방식으로 구현 복잡도 최소화
+* 전체 텍스트 동기화 방식으로 구현 단순화
+
+---
 
 ## 🤔 WebSocket을 사용한 이유
 
-HTTP는 요청-응답 구조이기 때문에 실시간 협업에 부적합하다고 판단하여  
+HTTP는 요청-응답 구조이기 때문에 실시간 협업에 부적합하다고 판단하여
 양방향 통신이 가능한 WebSocket을 사용했습니다.
 
 ---
@@ -163,11 +163,19 @@ HTTP는 요청-응답 구조이기 때문에 실시간 협업에 부적합하다
 ./gradlew bootRun
 ```
 
-또는 (Windows)
+Windows:
 
 ```bash
 gradlew.bat bootRun
 ```
+
+---
+
+## 📌 Project Rules
+
+- [코딩 규칙](docs/CODE_STYLE.md)
+- [커밋 규칙](docs/COMMIT_CONVENTION.md)
+- [브랜치 전략](docs/BRANCH_STRATEGY.md)
 
 ---
 
