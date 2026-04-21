@@ -22,15 +22,10 @@ WebSocket 기반으로 여러 사용자가 동시에 문서를 편집할 수 있
 ## 🧩 아키텍처 개요
 
 * **HTTP API**
-
-  * 문서 생성 / 조회 / 저장 (DB 영속화)
 * **WebSocket**
-
-  * 실시간 텍스트 동기화 (브로드캐스트)
 * **In-Memory 상태 관리**
 
-  * 서버 메모리(Map)를 활용한 문서 상태 관리
-
+👉 [설계 포인트](#💡-설계-포인트)
 ---
 
 ## 📂 프로젝트 구조
@@ -54,6 +49,20 @@ com.example.collabeditor
    ├─ session                    // 문서별 현재 편집 상태 (In-Memory Map 관리)
    └─ dto                        // WebSocket 메시지 구조 정의
 ```
+
+## 패키지 구조 설명
+
+### common 패키지
+- 여러 도메인에서 공통으로 사용하는 설정과 예외 처리 집중 관리
+
+### document 패키지
+- 문서는 DB에 영속적으로 저장되어야 하기 때문에 HTTP 기반 CRUD로 분리
+- 데이터 중심 계층으로 설계
+
+### collaboration 패키지
+- 실시간 동기화가 필요하여 WebSocket 기반으로 분리
+- 서버 메모리(Map)를 활용해 현재 편집 상태 관리
+
 
 ---
 
@@ -130,10 +139,11 @@ PUT /api/documents/{id}
 
 ## 💡 설계 포인트
 
-* Controller / Service / Repository 계층 분리
-* HTTP와 WebSocket 역할 분리
-* Redis 없이 메모리 기반으로 단순화
-* 전체 텍스트 동기화 방식으로 구현 단순화
+* 실시간 협업을 위해 WebSocket 기반 구조 선택
+* 서버 상태 관리를 위해 In-Memory Map 사용
+* 단순화를 위해 Redis 없이 단일 서버 메모리 구조로 설계
+* 전체 텍스트 동기화 방식으로 구현 복잡도 최소화
+* Controller / Service / Repository 구조로 계층 분리하여 유지보수성 확보
 
 ---
 
